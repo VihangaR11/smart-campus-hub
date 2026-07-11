@@ -19,8 +19,8 @@
     expense: ["Food", "Transport", "Books & Supplies", "Rent", "Phone & Data", "Entertainment", "Other"]
   };
   const CAT_COLOR = {
-    "Food": "#FF9F45", "Transport": "#6246EA", "Books & Supplies": "#16B98A",
-    "Rent": "#E5484D", "Phone & Data": "#8B78FF", "Entertainment": "#F76FB3", "Other": "#7C89A0"
+    "Food": "#F59E0B", "Transport": "#4F46E5", "Books & Supplies": "#10B981",
+    "Rent": "#EF4444", "Phone & Data": "#0EA5E9", "Entertainment": "#EC4899", "Other": "#64748B"
   };
 
   const SEED = [
@@ -130,7 +130,7 @@
     const byCat = {};
     txns.filter(t => t.type === "expense").forEach(t => byCat[t.category] = (byCat[t.category] || 0) + t.amount);
     const rows = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
-    if (!rows.length) { wrap.innerHTML = '<p class="muted-note">No expenses yet — add one to see where your money goes.</p>'; return; }
+    if (!rows.length) { wrap.innerHTML = '<div class="empty-state"><span class="es-ic">📊</span><b>No spending yet</b><span>Your expenses grouped by category will show up here once you add some.</span></div>'; return; }
     wrap.innerHTML = rows.map(([cat, amt]) => {
       const pct = expense ? Math.round(amt / expense * 100) : 0;
       const color = CAT_COLOR[cat] || "#7C89A0";
@@ -145,7 +145,7 @@
   function renderList() {
     const list = document.getElementById("txnList");
     const meta = document.getElementById("txnMeta");
-    if (!txns.length) { list.innerHTML = '<li class="muted-note" style="padding:20px;text-align:center">No transactions yet.</li>'; meta.textContent = ""; return; }
+    if (!txns.length) { list.innerHTML = '<li class="empty-state"><span class="es-ic">🧾</span><b>No transactions yet</b><span>Add income or an expense above to start tracking your balance.</span></li>'; meta.textContent = ""; return; }
     meta.textContent = txns.length + " transaction(s)";
     const sorted = txns.slice().sort((a, b) => b.ts - a.ts);
     list.innerHTML = sorted.map(t => {

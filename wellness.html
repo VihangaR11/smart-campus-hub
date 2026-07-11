@@ -36,10 +36,13 @@
 
   <!-- ============ HEADER ============ -->
   <section class="section" style="padding-bottom:0">
-    <div class="container reveal">
-      <span class="eyebrow">Wellness</span>
-      <h1>Look after the student, not just the studying.</h1>
-      <p class="lead mt-2">A quiet corner to check in with yourself, stay hydrated, breathe, and remember to take breaks.</p>
+    <div class="container page-hero reveal">
+      <div class="page-hero-text">
+        <span class="eyebrow">Wellness</span>
+        <h1>Look after the student, not just the studying.</h1>
+        <p class="lead mt-2">A quiet corner to check in with yourself, stay hydrated, breathe, and remember to take breaks.</p>
+      </div>
+      <div class="page-hero-img"><img src="assets/images/illustration-wellness.svg" alt="Illustration of a student meditating calmly with plants, a water drop and a heart" /></div>
     </div>
   </section>
 
@@ -189,7 +192,7 @@
     /* Breathing */
     .breath-card { text-align: center; }
     .breath-stage { height: 240px; display: grid; place-items: center; margin-bottom: 12px; }
-    .breath-circle { width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; transform: scale(1); transition: transform .6s var(--ease); background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--primary) 40%, var(--surface)), color-mix(in srgb, var(--accent) 35%, var(--surface))); box-shadow: var(--shadow-md); }
+    .breath-circle { width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; transform: scale(1); transition: transform .6s var(--ease); background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--primary) 40%, var(--surface)), color-mix(in srgb, var(--secondary) 35%, var(--surface))); box-shadow: var(--shadow-md); }
     .breath-circle.active { box-shadow: 0 0 0 8px color-mix(in srgb, var(--primary) 12%, transparent), var(--shadow-lg); }
     .breath-inner { font-family: var(--font-display); }
     .breath-inner span { display: block; font-size: .92rem; font-weight: 500; color: var(--ink); }

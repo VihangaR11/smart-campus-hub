@@ -89,7 +89,7 @@
     if (!list) return;
 
     if (!assignments.length) {
-      list.innerHTML = '<li class="empty">No assignments yet. Add your first deadline above to start tracking. 📌</li>';
+      list.innerHTML = '<li class="empty-state"><span class="es-ic">📋</span><b>No assignments yet</b><span>Add your first deadline above and it\'ll appear here, sorted by due date.</span></li>';
     } else {
       const sorted = assignments.slice().sort((a, b) =>
         (a.done - b.done) || (new Date(a.due) - new Date(b.due)));

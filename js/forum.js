@@ -44,8 +44,8 @@ const SEED_POLLS = [
 createApp({
   data() {
     return {
-      // new-post form
-      author: "",
+      // new-post form (pre-filled with the remembered name, if any)
+      author: (window.SSH && SSH.getName()) || "",
       newTag: "General",
       newBody: "",
       postError: false,

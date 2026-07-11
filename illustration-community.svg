@@ -1,0 +1,41 @@
+<svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" fill="none" role="img" aria-label="Students chatting in a community forum illustration">
+  <defs>
+    <linearGradient id="cBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4F46E5"/><stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <filter id="cS" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#4F46E5" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+
+  <!-- backdrop + accents -->
+  <rect x="52" y="44" width="396" height="312" rx="60" fill="#E0F2FE" transform="rotate(4 250 200)"/>
+  <circle cx="60" cy="120" r="9" fill="#F59E0B"/>
+  <circle cx="446" cy="300" r="8" fill="#10B981"/>
+  <circle cx="430" cy="96" r="6" fill="#4F46E5" opacity=".5"/>
+
+  <!-- incoming bubble (white) -->
+  <g filter="url(#cS)"><rect x="96" y="86" width="230" height="112" rx="20" fill="#FFFFFF"/></g>
+  <path d="M120 198v22l22-16z" fill="#FFFFFF"/>
+  <circle cx="128" cy="118" r="16" fill="#4F46E5"/>
+  <text x="128" y="123" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#fff">N</text>
+  <rect x="156" y="106" width="120" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="156" y="126" width="150" height="9" rx="4.5" fill="#EDEFF3"/>
+  <rect x="156" y="144" width="96" height="9" rx="4.5" fill="#EDEFF3"/>
+  <rect x="120" y="170" width="70" height="9" rx="4.5" fill="#EDEFF3"/>
+
+  <!-- outgoing bubble (indigo) -->
+  <g filter="url(#cS)"><rect x="214" y="214" width="196" height="94" rx="20" fill="#4F46E5"/></g>
+  <path d="M386 308v22l-22-16z" fill="#4F46E5"/>
+  <rect x="236" y="236" width="150" height="10" rx="5" fill="#fff" opacity=".92"/>
+  <rect x="236" y="256" width="120" height="9" rx="4.5" fill="#fff" opacity=".6"/>
+  <rect x="236" y="274" width="140" height="9" rx="4.5" fill="#fff" opacity=".6"/>
+
+  <!-- avatar row -->
+  <circle cx="150" cy="336" r="18" fill="#0EA5E9"/><text x="150" y="341" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#fff">K</text>
+  <circle cx="184" cy="336" r="18" fill="#F59E0B"/><text x="184" y="341" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#fff">I</text>
+  <circle cx="218" cy="336" r="18" fill="#10B981"/><text x="218" y="341" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#fff">S</text>
+
+  <!-- heart accent -->
+  <path d="M360 150c-6-10-22-6-22 6 0 9 12 16 22 24 10-8 22-15 22-24 0-12-16-16-22-6z" fill="#F43F5E"/>
+</svg>

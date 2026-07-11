@@ -1,0 +1,43 @@
+<svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" fill="none" role="img" aria-label="Student wellbeing and calm illustration">
+  <defs>
+    <radialGradient id="wCore" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#818CF8"/><stop offset="1" stop-color="#38BDF8"/>
+    </radialGradient>
+    <filter id="wS" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#0EA5E9" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="56" y="46" width="388" height="312" rx="64" fill="#D1FAE5" transform="rotate(-4 250 202)"/>
+
+  <!-- sun -->
+  <circle cx="410" cy="96" r="22" fill="#F59E0B"/>
+  <g stroke="#F59E0B" stroke-width="4" stroke-linecap="round">
+    <path d="M410 58v-14"/><path d="M410 148v14"/><path d="M448 96h14"/><path d="M358 96h-14"/>
+    <path d="M437 69l10-10"/><path d="M383 123l-10 10"/><path d="M437 123l10 10"/><path d="M383 69l-10-10"/>
+  </g>
+
+  <!-- breathing rings -->
+  <circle cx="230" cy="210" r="120" fill="#A7F3D0" opacity=".45"/>
+  <circle cx="230" cy="210" r="90" fill="#6EE7B7" opacity=".45"/>
+  <g filter="url(#wS)"><circle cx="230" cy="210" r="60" fill="url(#wCore)"/></g>
+
+  <!-- meditating figure -->
+  <circle cx="230" cy="188" r="18" fill="#312E81"/>
+  <path d="M196 250c0-24 15-40 34-40s34 16 34 40z" fill="#4F46E5"/>
+  <path d="M198 246c8 6 18 6 24-2M262 246c-8 6-18 6-24-2" stroke="#312E81" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- leaf -->
+  <path d="M112 300c-4-30 14-54 44-58-4 30-18 50-44 58z" fill="#10B981"/>
+  <path d="M112 300c22-8 34-24 40-44" stroke="#065F46" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- water drop -->
+  <path d="M120 150c0-16 14-20 14-36 0 16 14 20 14 36a14 14 0 0 1-28 0z" fill="#0EA5E9"/>
+
+  <!-- heart + dots -->
+  <path d="M338 274c-6-10-22-6-22 6 0 9 12 16 22 24 10-8 22-15 22-24 0-12-16-16-22-6z" fill="#F43F5E"/>
+  <circle cx="96" cy="120" r="7" fill="#F59E0B"/>
+  <circle cx="360" cy="330" r="8" fill="#10B981"/>
+  <circle cx="70" cy="240" r="5" fill="#0EA5E9"/>
+</svg>

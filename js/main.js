@@ -127,8 +127,39 @@
   const todayISO = () => isoOf(new Date());
   function offsetISO(n) { const d = new Date(); d.setDate(d.getDate() + n); return isoOf(d); }
 
-  function getName() { return lsGet("ssh-name", ""); }
+  function getName() { const u = getUser(); return u ? u.name : lsGet("ssh-name", ""); }
   function setName(n) { lsSet("ssh-name", String(n || "").trim()); return getName(); }
+
+  /* account/session (client-side demo auth — no backend, per the brief) */
+  function getUser() {
+    const email = lsGet("ssh-session", null);
+    if (!email) return null;
+    const accs = lsGet("ssh-accounts", {});
+    return accs[email] || null;
+  }
+  function firstName(n) { return String(n || "").trim().split(/\s+/)[0] || ""; }
+  function logout() { try { localStorage.removeItem("ssh-session"); } catch (e) {} location.href = "index.html"; }
+  function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+  // Inject a sign-in / user chip into the nav (full-nav pages only)
+  function renderAuthNav() {
+    const actions = document.querySelector(".nav-actions");
+    if (!actions || !document.querySelector(".nav-links")) return;
+    const old = actions.querySelector(".auth-ctl"); if (old) old.remove();
+    const wrap = document.createElement("div");
+    wrap.className = "auth-ctl";
+    const user = getUser();
+    if (user) {
+      wrap.innerHTML = '<span class="auth-hi">Hi, ' + esc(firstName(user.name)) + '</span>' +
+        '<button class="auth-btn" id="logoutBtn">Log out</button>';
+    } else {
+      wrap.innerHTML = '<a class="auth-btn" href="login.html">Sign in</a>';
+    }
+    actions.insertBefore(wrap, actions.firstChild);
+    const lo = wrap.querySelector("#logoutBtn");
+    if (lo) lo.addEventListener("click", logout);
+  }
+  document.addEventListener("DOMContentLoaded", renderAuthNav);
 
   function greeting() {
     const h = new Date().getHours();
@@ -156,6 +187,7 @@
   window.SSH = {
     renderRing: renderRing, renderRings: renderRings,
     getName: getName, setName: setName,
-    greeting: greeting, getStreak: getStreak, updateStreak: updateStreak
+    greeting: greeting, getStreak: getStreak, updateStreak: updateStreak,
+    getUser: getUser, firstName: firstName, logout: logout
   };
 })();

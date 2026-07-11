@@ -25,6 +25,10 @@
     const form = document.getElementById("supportForm");
     if (!form) return;
 
+    // pre-fill name if the student set one on the Home page
+    const savedName = window.SSH && SSH.getName();
+    if (savedName) document.getElementById("sName").value = savedName;
+
     // real-time validation
     FIELDS.forEach(f => {
       const el = document.getElementById(f.id);
