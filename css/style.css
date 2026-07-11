@@ -7,24 +7,25 @@
 
 /* ---------- 1. Design Tokens ---------- */
 :root {
-  /* Light theme (default) */
-  --bg:        #FAF9FE;
-  --surface:   #FFFFFF;
-  --surface-2: #F3F1FB;
-  --ink:       #1B1830;
-  --muted:     #6A6782;
-  --primary:   #6246EA;
-  --primary-ink: #4B34C4;
-  --accent:    #FF9F45;
-  --positive:  #16B98A;
-  --danger:    #E5484D;
-  --border:    #E9E7F5;
-  --ring-track:#ECEAF7;
+  /* Light theme (default) — "Smart Indigo" palette */
+  --bg:        #F8FAFC;   /* light gray  */
+  --surface:   #FFFFFF;   /* cards       */
+  --surface-2: #F1F5F9;   /* inset fill  */
+  --ink:       #0F172A;   /* slate text  */
+  --muted:     #64748B;   /* gray text   */
+  --primary:   #4F46E5;   /* indigo      */
+  --primary-ink: #4338CA; /* indigo-700  */
+  --secondary: #0EA5E9;   /* sky blue    */
+  --accent:    #F59E0B;   /* amber       */
+  --positive:  #10B981;   /* emerald     */
+  --danger:    #EF4444;   /* red         */
+  --border:    #E2E8F0;   /* slate-200   */
+  --ring-track:#E7ECF3;
 
-  /* Effects */
-  --shadow-sm: 0 1px 2px rgba(27, 24, 48, .06), 0 2px 8px rgba(27, 24, 48, .05);
-  --shadow-md: 0 6px 20px rgba(98, 70, 234, .10), 0 2px 6px rgba(27, 24, 48, .06);
-  --shadow-lg: 0 18px 50px rgba(98, 70, 234, .16);
+  /* Effects (indigo-tinted shadows) */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, .06), 0 2px 8px rgba(15, 23, 42, .05);
+  --shadow-md: 0 6px 20px rgba(79, 70, 229, .10), 0 2px 6px rgba(15, 23, 42, .06);
+  --shadow-lg: 0 18px 50px rgba(79, 70, 229, .16);
 
   /* Type */
   --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
@@ -40,18 +41,19 @@
 }
 
 [data-theme="dark"] {
-  --bg:        #131126;
-  --surface:   #1C1938;
-  --surface-2: #242047;
-  --ink:       #F2F1FA;
-  --muted:     #A5A2C0;
-  --primary:   #8B78FF;
-  --primary-ink: #A796FF;
-  --accent:    #FFB067;
-  --positive:  #2DD4A7;
-  --danger:    #FF6B70;
-  --border:    #2C2850;
-  --ring-track:#2A2650;
+  --bg:        #0B1120;   /* deep slate  */
+  --surface:   #151E30;
+  --surface-2: #1E293B;   /* slate-800   */
+  --ink:       #E2E8F0;   /* slate-200   */
+  --muted:     #94A3B8;   /* slate-400   */
+  --primary:   #818CF8;   /* indigo-400  */
+  --primary-ink: #A5B4FC; /* indigo-300  */
+  --secondary: #38BDF8;   /* sky-400     */
+  --accent:    #FBBF24;   /* amber-400   */
+  --positive:  #34D399;   /* emerald-400 */
+  --danger:    #F87171;   /* red-400     */
+  --border:    #283548;
+  --ring-track:#24314A;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3);
   --shadow-md: 0 6px 20px rgba(0, 0, 0, .35);
@@ -118,7 +120,7 @@ img { max-width: 100%; display: block; }
 .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; color: var(--ink); letter-spacing: -.02em; }
 .brand-mark {
   width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff;
   font-family: var(--font-display); font-weight: 700; font-size: 1rem;
 }
 .brand span { color: var(--primary); }
