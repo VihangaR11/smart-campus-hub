@@ -28,6 +28,15 @@
     return "x" + (h >>> 0).toString(16);
   }
 
+  // Per-account random salt, so identical passwords never share a hash.
+  function randSalt() {
+    if (window.crypto && crypto.getRandomValues) {
+      const a = new Uint8Array(16); crypto.getRandomValues(a);
+      return [...a].map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+    return Math.random().toString(36).slice(2) + Date.now().toString(36);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     const tabs = document.querySelectorAll(".auth-tab");
     const panes = { signin: document.getElementById("pane-signin"), signup: document.getElementById("pane-signup") };
@@ -54,7 +63,8 @@
       const accs = accounts();
       if (accs[em]) { formMsg("signup", "An account with this email already exists — try signing in.", true); return; }
 
-      accs[em] = { name: name.trim(), email: em, passHash: await hash(pass) };
+      const salt = randSalt();
+      accs[em] = { name: name.trim(), email: em, salt: salt, passHash: await hash(salt + pass) };
       saveAccounts(accs);
       startSession(em);
       go();
@@ -70,7 +80,9 @@
       if (!ok) return;
 
       const acc = accounts()[email.trim().toLowerCase()];
-      if (!acc || acc.passHash !== await hash(pass)) {
+      const salted = acc && await hash((acc.salt || "") + pass);
+      const legacy = acc && await hash(pass); // backward-compat for any pre-salt account
+      if (!acc || (acc.passHash !== salted && acc.passHash !== legacy)) {
         formMsg("signin", "Invalid email or password.", true); return;
       }
       startSession(acc.email);

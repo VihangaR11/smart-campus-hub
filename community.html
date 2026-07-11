@@ -37,10 +37,13 @@
 
   <!-- ============ HEADER ============ -->
   <section class="section" style="padding-bottom:20px">
-    <div class="container reveal">
-      <span class="eyebrow">Student Community · powered by Vue.js</span>
-      <h1>Ask, share, and figure it out together.</h1>
-      <p class="lead mt-2">A space to swap study tips, post events and vote in quick polls — no account, no login. Your posts are saved in your browser.</p>
+    <div class="container page-hero reveal">
+      <div class="page-hero-text">
+        <span class="eyebrow">Student Community · powered by Vue.js</span>
+        <h1>Ask, share, and figure it out together.</h1>
+        <p class="lead mt-2">A space to swap study tips, post events and vote in quick polls — no account needed. Your posts are saved in your browser.</p>
+      </div>
+      <div class="page-hero-img"><img src="assets/images/illustration-community.svg" alt="Illustration of students chatting in a discussion forum with speech bubbles and avatars" /></div>
     </div>
   </section>
 
@@ -51,7 +54,7 @@
       <!-- fallback shown until Vue mounts (e.g. if offline) -->
       <div id="forum-fallback" class="card text-center" style="padding:40px">
         <div class="loader-ring" style="margin:0 auto 14px"></div>
-        Loading the community… if this stays, check your internet — the Vue library loads from a CDN.
+        Loading the community… if this message stays, the Vue library (js/vue.global.prod.js) failed to load — try a hard refresh.
       </div>
 
       <div id="community-app" v-cloak class="community-grid">
@@ -135,8 +138,9 @@
             </article>
           </transition-group>
 
-          <div v-if="!filteredPosts.length" class="card text-center" style="padding:40px;color:var(--muted)">
-            No posts match your filter yet. Be the first to start this conversation.
+          <div v-if="!filteredPosts.length" class="card empty-state">
+            <span class="es-ic">💬</span><b>Nothing here yet</b>
+            <span>No posts match this filter — try another category, or start the conversation above.</span>
           </div>
         </main>
 
@@ -270,8 +274,8 @@
   </style>
 
   <script src="js/main.js"></script>
-  <!-- Vue 3 global build (pinned for a stable viva demo). Swap the version if needed. -->
-  <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
+  <!-- Vue 3.4.21 — self-hosted (no CDN dependency: safer supply chain + works offline) -->
+  <script src="js/vue.global.prod.js"></script>
   <script src="js/forum.js"></script>
 </body>
 </html>
