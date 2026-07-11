@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — SmartStudent Hub</title>
+  <meta name="description" content="Get help, send feedback, and find answers. Contact the SmartStudent Hub team." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-loader"><div class="loader-ring"></div></div>
+
+  <!-- ============ NAV (shared) ============ -->
+  <header class="nav">
+    <div class="container">
+      <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="planner.html">Study Planner</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="wellness.html">Wellness</a></li>
+          <li><a href="budget.html">Budget</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle theme"></button>
+        <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HEADER ============ -->
+  <section class="section" style="padding-bottom:0">
+    <div class="container reveal">
+      <span class="eyebrow">Support</span>
+      <h1>Stuck on something? We've got you.</h1>
+      <p class="lead mt-2">Send feedback, report a bug, or ask a question — and browse the FAQ for quick answers.</p>
+    </div>
+  </section>
+
+  <!-- ============ FORM + CONTACT ============ -->
+  <section class="section" style="padding-top:36px">
+    <div class="container support-grid">
+
+      <!-- Feedback form -->
+      <div class="card">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Send us a message</span></div>
+
+        <div class="form-success" id="formSuccess" style="display:none">
+          <span class="fs-ic">✓</span><span class="fs-text"></span>
+        </div>
+
+        <form id="supportForm" novalidate>
+          <div class="form-2col">
+            <div class="field" style="margin:0">
+              <label for="sName">Name</label>
+              <input id="sName" type="text" placeholder="Your name" />
+              <span class="err"></span>
+            </div>
+            <div class="field" style="margin:0">
+              <label for="sEmail">Email</label>
+              <input id="sEmail" type="email" placeholder="you@example.com" />
+              <span class="err"></span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="sCategory">What's this about?</label>
+            <select id="sCategory">
+              <option value="">Choose a topic…</option>
+              <option>General feedback</option>
+              <option>Bug report</option>
+              <option>Feature suggestion</option>
+              <option>Question about a tool</option>
+              <option>Something else</option>
+            </select>
+            <span class="err"></span>
+          </div>
+
+          <div class="field">
+            <label>How's your experience so far? <span class="rating-hint" id="ratingLabel">optional</span></label>
+            <div class="stars" id="stars"></div>
+          </div>
+
+          <div class="field">
+            <label for="sMessage">Message <span class="msg-count" id="msgCount">0 / 10 min</span></label>
+            <textarea id="sMessage" rows="4" placeholder="Tell us what's on your mind…"></textarea>
+            <span class="err"></span>
+          </div>
+
+          <button class="btn btn-primary" type="submit" style="width:100%">Send message</button>
+          <p class="form-note">No account needed. This is a demo form — nothing is sent to a server; your message is confirmed locally.</p>
+        </form>
+      </div>
+
+      <!-- Contact info -->
+      <aside class="support-side">
+        <div class="card contact-card">
+          <span class="cc-ic">✉️</span>
+          <div><b>Email us</b><p>support@smartstudenthub.lk</p></div>
+        </div>
+        <div class="card contact-card">
+          <span class="cc-ic">🕘</span>
+          <div><b>Support hours</b><p>Mon–Fri · 9:00 AM – 5:00 PM</p></div>
+        </div>
+        <div class="card contact-card">
+          <span class="cc-ic">⚡</span>
+          <div><b>Response time</b><p>Within 2 working days</p></div>
+        </div>
+        <div class="card contact-card">
+          <span class="cc-ic">💬</span>
+          <div><b>Prefer to ask peers?</b><p><a href="community.html">Post in the Community →</a></p></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ SUPPORT TOPICS ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Quick help</span>
+        <h2>Jump straight to a tool</h2>
+      </div>
+      <div class="grid grid-3 reveal">
+        <a class="card topic" href="planner.html"><b>📚 Planner &amp; GPA</b><p>Deadlines, focus timer and grade calculations.</p></a>
+        <a class="card topic" href="budget.html"><b>💸 Budgeting</b><p>Logging spending and setting a savings goal.</p></a>
+        <a class="card topic" href="wellness.html"><b>🌿 Wellness</b><p>Mood check-ins, hydration and breaks.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq reveal">
+        <details class="faq-item"><summary>Is my data private?</summary><p>Yes. SmartStudent Hub has no backend or server — everything you enter (tasks, moods, budget, forum posts) is stored only in your own browser via <code>localStorage</code>. Nothing leaves your device.</p></details>
+        <details class="faq-item"><summary>Do I need to create an account?</summary><p>No. There's no login or sign-up anywhere in the app. Just open a page and start using the tools.</p></details>
+        <details class="faq-item"><summary>Will my data sync across devices?</summary><p>No — because there's no server, your data lives on the device and browser you used. Opening the app on another device starts fresh.</p></details>
+        <details class="faq-item"><summary>How do I switch between light and dark mode?</summary><p>Use the sun/moon button in the top-right of the navigation bar. Your choice is remembered on your next visit.</p></details>
+        <details class="faq-item"><summary>How do I reset a tool's data?</summary><p>Clear your browser's site data for this site, and the tools return to their starting state. Handy before a fresh demo.</p></details>
+        <details class="faq-item"><summary>Which browsers are supported?</summary><p>Any modern browser — Chrome, Edge, Firefox or Safari. The layout is fully responsive on desktop and mobile.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared) ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+        <p>A student-built platform for managing academic and personal life. EEI3346 Web Application Development mini project.</p>
+      </div>
+      <div class="footer-cols">
+        <div><h4>Tools</h4><a href="planner.html">Study Planner</a><a href="budget.html">Budget Tracker</a><a href="wellness.html">Wellness</a></div>
+        <div><h4>Campus</h4><a href="community.html">Community</a><a href="support.html">Support</a><a href="index.html">Home</a></div>
+      </div>
+    </div>
+    <div class="container"><div class="footer-base">© 2026 SmartStudent Hub · Built from scratch with HTML5, CSS, JavaScript &amp; Vue.js</div></div>
+  </footer>
+
+  <!-- ============ Page styles ============ -->
+  <style>
+    .tool-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+    .support-grid { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .support-grid { grid-template-columns: 1fr; } }
+    .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+    @media (max-width: 480px) { .form-2col { grid-template-columns: 1fr; } }
+    .form-note { color: var(--muted); font-size: .8rem; margin-top: 12px; text-align: center; }
+
+    /* success banner */
+    .form-success { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--radius); background: color-mix(in srgb, var(--positive) 14%, transparent); border: 1px solid color-mix(in srgb, var(--positive) 40%, transparent); margin-bottom: 18px; }
+    .fs-ic { width: 28px; height: 28px; border-radius: 50%; background: var(--positive); color: #fff; display: grid; place-items: center; font-weight: 700; flex-shrink: 0; }
+    .fs-text { font-size: .9rem; font-weight: 500; }
+
+    /* rating + counter hints */
+    .rating-hint, .msg-count { float: right; font-family: var(--font-mono); font-size: .76rem; color: var(--muted); font-weight: 400; }
+    .msg-count.ok { color: var(--positive); }
+    .stars { display: flex; gap: 4px; }
+    .star { background: none; border: none; font-size: 1.7rem; line-height: 1; color: var(--ring-track); cursor: pointer; transition: color .15s, transform .15s; padding: 0; }
+    .star:hover { transform: scale(1.15); }
+    .star.on { color: var(--accent); }
+
+    /* contact cards */
+    .support-side { display: flex; flex-direction: column; gap: 14px; }
+    .contact-card { display: flex; align-items: center; gap: 14px; padding: 18px; }
+    .cc-ic { font-size: 1.4rem; width: 46px; height: 46px; border-radius: 12px; background: var(--surface-2); display: grid; place-items: center; flex-shrink: 0; }
+    .contact-card b { font-family: var(--font-display); font-size: .95rem; }
+    .contact-card p { color: var(--muted); font-size: .88rem; margin-top: 2px; word-break: break-word; }
+
+    /* support topics */
+    .topic { color: var(--ink); }
+    .topic b { font-family: var(--font-display); font-size: 1.02rem; display: block; margin-bottom: 6px; }
+    .topic p { color: var(--muted); font-size: .9rem; }
+
+    /* FAQ */
+    .faq { display: flex; flex-direction: column; gap: 10px; max-width: 780px; }
+    .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 18px; }
+    .faq-item summary { cursor: pointer; padding: 15px 0; font-family: var(--font-display); font-weight: 500; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; color: var(--primary); font-size: 1.3rem; transition: transform .2s; flex-shrink: 0; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p { color: var(--muted); padding: 0 0 16px; line-height: 1.6; }
+    .faq-item code { background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-family: var(--font-mono); font-size: .85em; }
+  </style>
+
+  <script src="js/main.js"></script>
+  <script src="js/support.js"></script>
+</body>
+</html>
