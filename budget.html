@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget — SmartStudent Hub</title>
+  <meta name="description" content="Track your student income and spending, see where your money goes, and hit a savings goal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-loader"><div class="loader-ring"></div></div>
+
+  <!-- ============ NAV (shared) ============ -->
+  <header class="nav">
+    <div class="container">
+      <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="planner.html">Study Planner</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="wellness.html">Wellness</a></li>
+          <li><a href="budget.html">Budget</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle theme"></button>
+        <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HEADER ============ -->
+  <section class="section" style="padding-bottom:0">
+    <div class="container reveal">
+      <span class="eyebrow">Budget Tracker</span>
+      <h1>Know where your money actually goes.</h1>
+      <p class="lead mt-2">Log your allowance and spending, watch your balance, and stay on track for a savings goal — all in rupees, all in your browser.</p>
+    </div>
+  </section>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="section" style="padding-top:36px;padding-bottom:0">
+    <div class="container">
+      <div class="card overview reveal">
+        <div class="ov-stats">
+          <div class="ov-stat"><small>Income</small><b id="sumIncome" class="pos">Rs 0</b></div>
+          <div class="ov-stat"><small>Expenses</small><b id="sumExpense" class="neg-c">Rs 0</b></div>
+          <div class="ov-stat"><small>Balance</small><b id="sumBalance">Rs 0</b></div>
+        </div>
+        <div class="ov-goal">
+          <div class="focus-ring" id="ringGoal" style="--size:130px" data-pct="0" data-label="of goal"></div>
+          <div class="ov-goal-set">
+            <label for="goalInput">Monthly savings goal</label>
+            <div class="goal-input-wrap"><span>Rs</span><input type="number" id="goalInput" min="0" step="500" /></div>
+            <span class="goal-meta" id="goalMeta">Rs 0 / Rs 0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ADD + LIST | BREAKDOWN ============ -->
+  <section class="section">
+    <div class="container budget-grid">
+
+      <!-- left: add + list -->
+      <div>
+        <div class="card">
+          <div class="tool-head"><span class="eyebrow" style="margin:0">Add a transaction</span></div>
+          <form id="txnForm" novalidate>
+            <div class="type-segs">
+              <button type="button" class="type-seg" data-type="expense">− Expense</button>
+              <button type="button" class="type-seg" data-type="income">+ Income</button>
+            </div>
+            <div class="txn-grid">
+              <div class="field" style="margin:0">
+                <label for="txnAmount">Amount (Rs)</label>
+                <input id="txnAmount" type="number" min="0" step="10" placeholder="0" />
+                <span class="err">Enter an amount greater than zero.</span>
+              </div>
+              <div class="field" style="margin:0">
+                <label for="txnCat">Category</label>
+                <select id="txnCat"></select>
+              </div>
+            </div>
+            <div class="field mt-2" style="margin-bottom:0">
+              <label for="txnLabel">Note (optional)</label>
+              <input id="txnLabel" type="text" placeholder="e.g. Lunch at canteen" />
+            </div>
+            <button class="btn btn-primary mt-2" type="submit" style="width:100%">Add transaction</button>
+          </form>
+        </div>
+
+        <div class="card mt-3">
+          <div class="tool-head"><span class="eyebrow" style="margin:0">Transactions</span><span class="chip" id="txnMeta"></span></div>
+          <ul class="txn-list" id="txnList"></ul>
+        </div>
+      </div>
+
+      <!-- right: breakdown -->
+      <div class="card breakdown-card">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Where it goes</span></div>
+        <div id="breakdown"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared) ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+        <p>A student-built platform for managing academic and personal life. EEI3346 Web Application Development mini project.</p>
+      </div>
+      <div class="footer-cols">
+        <div><h4>Tools</h4><a href="planner.html">Study Planner</a><a href="budget.html">Budget Tracker</a><a href="wellness.html">Wellness</a></div>
+        <div><h4>Campus</h4><a href="community.html">Community</a><a href="support.html">Support</a><a href="index.html">Home</a></div>
+      </div>
+    </div>
+    <div class="container"><div class="footer-base">© 2026 SmartStudent Hub · Built from scratch with HTML5, CSS, JavaScript &amp; Vue.js</div></div>
+  </footer>
+
+  <!-- ============ Page styles ============ -->
+  <style>
+    .tool-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+    .muted-note { color: var(--muted); font-size: .9rem; }
+
+    /* Overview */
+    .overview { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; align-items: center; }
+    .ov-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+    .ov-stat small { color: var(--muted); font-family: var(--font-mono); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+    .ov-stat b { display: block; font-family: var(--font-mono); font-size: clamp(1.5rem, 4vw, 2.1rem); margin-top: 6px; }
+    .ov-stat .pos { color: var(--positive); }
+    .ov-stat .neg-c { color: var(--accent); }
+    #sumBalance.neg { color: var(--danger); }
+    .ov-goal { display: flex; align-items: center; gap: 20px; }
+    .ov-goal-set label { display: block; font-size: .82rem; color: var(--muted); margin-bottom: 8px; }
+    .goal-input-wrap { display: flex; align-items: center; gap: 6px; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 0 12px; }
+    .goal-input-wrap span { color: var(--muted); font-family: var(--font-mono); font-size: .9rem; }
+    .goal-input-wrap input { border: none; background: transparent; padding: 11px 4px; font-family: var(--font-mono); font-size: 1rem; color: var(--ink); width: 110px; }
+    .goal-input-wrap input:focus { outline: none; }
+    .goal-meta { display: block; margin-top: 8px; font-family: var(--font-mono); font-size: .8rem; color: var(--muted); }
+    @media (max-width: 560px) { .ov-goal { flex-direction: column; align-items: flex-start; } }
+
+    /* Grid */
+    .budget-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .budget-grid { grid-template-columns: 1fr; } }
+
+    /* Form */
+    .type-segs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 4px; background: var(--surface-2); border-radius: 999px; margin-bottom: 18px; }
+    .type-seg { border: none; background: transparent; color: var(--muted); font-family: var(--font-display); font-weight: 500; font-size: .9rem; padding: 9px; border-radius: 999px; cursor: pointer; transition: .2s; }
+    .type-seg.active { background: var(--surface); color: var(--primary); box-shadow: var(--shadow-sm); }
+    .txn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 480px) { .txn-grid { grid-template-columns: 1fr; } }
+
+    /* Transaction list */
+    .txn-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .t-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); }
+    .t-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .t-body { flex: 1; min-width: 0; }
+    .t-label { display: block; font-weight: 500; font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .t-cat { font-size: .75rem; color: var(--muted); font-family: var(--font-mono); }
+    .t-amt { font-family: var(--font-mono); font-weight: 500; font-size: .92rem; white-space: nowrap; }
+    .t-amt.income { color: var(--positive); }
+    .t-amt.expense { color: var(--ink); }
+    .t-del { border: none; background: transparent; color: var(--muted); cursor: pointer; padding: 4px; border-radius: 6px; }
+    .t-del:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+
+    /* Breakdown */
+    .breakdown-card { position: sticky; top: 88px; }
+    .cat-row { margin-bottom: 16px; }
+    .cat-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; font-size: .88rem; }
+    .cat-top > span:first-child { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .cat-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .cat-amt { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); }
+    .cat-track { height: 9px; background: var(--ring-track); border-radius: 999px; overflow: hidden; }
+    .cat-fill { height: 100%; border-radius: 999px; transition: width .6s var(--ease); }
+  </style>
+
+  <script src="js/main.js"></script>
+  <script src="js/budget.js"></script>
+</body>
+</html>
