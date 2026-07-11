@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartStudent Hub — Your campus life, organised</title>
+  <meta name="description" content="A student platform to plan study, track wellness, manage budget and connect with your campus community." />
+
+  <!-- Fonts (swap to self-hosted files if the viva venue has no internet) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Page loader -->
+  <div class="page-loader"><div class="loader-ring"></div></div>
+
+  <!-- ============ NAV (shared on every page) ============ -->
+  <header class="nav">
+    <div class="container">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="planner.html">Study Planner</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="wellness.html">Wellness</a></li>
+          <li><a href="budget.html">Budget</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle theme"></button>
+        <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="section" style="padding-top:clamp(40px,6vw,72px)">
+    <div class="container hero-grid">
+      <div class="hero-copy reveal">
+        <span class="eyebrow">Campus life, one calm dashboard</span>
+        <h1>Stop juggling ten tabs.<br>Run your student life from <span style="color:var(--primary)">one hub.</span></h1>
+        <p class="lead mt-2">
+          SmartStudent Hub brings your assignments, focus sessions, wellbeing check-ins,
+          budget and campus community into a single, distraction-free workspace — so the
+          mental load of being a student finally lives somewhere other than your head.
+        </p>
+        <div class="mt-3" style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="planner.html" class="btn btn-primary">Open Study Planner →</a>
+          <a href="community.html" class="btn btn-ghost">Visit the Community</a>
+        </div>
+      </div>
+
+      <!-- Signature focus-ring "today" dashboard preview -->
+      <aside class="hero-card reveal" aria-label="Today at a glance">
+        <div class="hero-card-top">
+          <span class="chip"><span class="badge-dot"></span> Today at a glance</span>
+          <span class="chip" id="todayDate"></span>
+        </div>
+        <div class="ring-row">
+          <div class="focus-ring" style="--size:130px" data-pct="72" data-label="Study"></div>
+          <div class="focus-ring" style="--size:130px" data-pct="55" data-label="Wellness"></div>
+          <div class="focus-ring" style="--size:130px" data-pct="88" data-label="Budget goal"></div>
+        </div>
+        <p class="hero-card-note">One visual language across every tool — the <b>focus ring</b> shows progress everywhere you look.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ ANNOUNCEMENTS (dynamic) ============ -->
+  <div class="announce" role="status" aria-live="polite">
+    <div class="container announce-inner">
+      <span class="announce-tag">📣 Latest</span>
+      <p id="announceText">Loading campus updates…</p>
+      <div class="announce-dots" id="announceDots"></div>
+    </div>
+  </div>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">What's inside</span>
+        <h2>Six focused tools, not one bloated app</h2>
+        <p class="lead">Each page solves a real, everyday student problem — and looks the same doing it.</p>
+      </div>
+      <div class="grid grid-3">
+        <a class="card feature reveal" href="planner.html">
+          <div class="feature-ic">🎯</div>
+          <h3>Study Planner</h3>
+          <p>Track assignments, run a Pomodoro focus timer, and watch your study progress fill up in real time.</p>
+          <span class="feature-go">Plan my week →</span>
+        </a>
+        <a class="card feature reveal" href="community.html">
+          <div class="feature-ic">💬</div>
+          <h3>Student Community</h3>
+          <p>A live discussion forum (built with Vue.js), quick polls and searchable FAQs — no login needed.</p>
+          <span class="feature-go">Join the chat →</span>
+        </a>
+        <a class="card feature reveal" href="wellness.html">
+          <div class="feature-ic">🌿</div>
+          <h3>Wellness Check-in</h3>
+          <p>Log your mood, keep hydration and break reminders on, and get a gentle nudge when you overwork.</p>
+          <span class="feature-go">Check in →</span>
+        </a>
+        <a class="card feature reveal" href="budget.html">
+          <div class="feature-ic">💸</div>
+          <h3>Budget Tracker</h3>
+          <p>See where your allowance actually goes, set a savings goal, and stay in the green all month.</p>
+          <span class="feature-go">Track spending →</span>
+        </a>
+        <a class="card feature reveal" href="planner.html#gpa">
+          <div class="feature-ic">📊</div>
+          <h3>GPA Calculator</h3>
+          <p>Add your modules and credits to see your live GPA — and what you need next semester to hit target.</p>
+          <span class="feature-go">Calculate →</span>
+        </a>
+        <a class="card feature reveal" href="support.html">
+          <div class="feature-ic">🛟</div>
+          <h3>Support & Feedback</h3>
+          <p>A validated feedback form, contact details and an accordion FAQ for whenever you're stuck.</p>
+          <span class="feature-go">Get help →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="section stats-section">
+    <div class="container">
+      <div class="grid grid-3 reveal">
+        <div class="stat"><b class="count" data-to="6">0</b><small>focused tools in one hub</small></div>
+        <div class="stat"><b class="count" data-to="100" data-suffix="%">0</b><small>runs in your browser — no account</small></div>
+        <div class="stat"><b class="count" data-to="0" data-text="∞">0</b><small>tabs you no longer need open</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared) ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+        <p>A student-built platform for managing academic and personal life. EEI3346 Web Application Development mini project.</p>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <h4>Tools</h4>
+          <a href="planner.html">Study Planner</a>
+          <a href="budget.html">Budget Tracker</a>
+          <a href="wellness.html">Wellness</a>
+        </div>
+        <div>
+          <h4>Campus</h4>
+          <a href="community.html">Community</a>
+          <a href="support.html">Support</a>
+          <a href="index.html">Home</a>
+        </div>
+      </div>
+    </div>
+    <div class="container"><div class="footer-base">© 2026 SmartStudent Hub · Built from scratch with HTML5, CSS, JavaScript &amp; Vue.js</div></div>
+  </footer>
+
+  <!-- ============ Page-specific styles ============ -->
+  <style>
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+
+    .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; box-shadow: var(--shadow-lg); }
+    .hero-card-top { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .ring-row { display: flex; gap: 14px; justify-content: space-between; flex-wrap: wrap; }
+    .ring-row .focus-ring { flex: 1; min-width: 100px; }
+    .hero-card-note { color: var(--muted); font-size: .86rem; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 16px; }
+
+    .announce { background: linear-gradient(90deg, color-mix(in srgb, var(--primary) 12%, transparent), color-mix(in srgb, var(--accent) 12%, transparent)); border-block: 1px solid var(--border); }
+    .announce-inner { display: flex; align-items: center; gap: 16px; padding-block: 14px; }
+    .announce-tag { font-family: var(--font-mono); font-size: .78rem; font-weight: 500; white-space: nowrap; color: var(--primary); }
+    .announce-inner p { flex: 1; font-size: .92rem; font-weight: 500; margin: 0; transition: opacity .4s; }
+    .announce-dots { display: flex; gap: 6px; }
+    .announce-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background .2s, transform .2s; }
+    .announce-dots span.on { background: var(--primary); transform: scale(1.25); }
+    @media (max-width: 620px) { .announce-tag { display: none; } }
+
+    .feature { display: flex; flex-direction: column; color: var(--ink); }
+    .feature-ic { font-size: 1.7rem; width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: var(--surface-2); margin-bottom: 16px; }
+    .feature p { color: var(--muted); font-size: .93rem; flex: 1; margin-top: 4px; }
+    .feature-go { color: var(--primary); font-weight: 600; font-size: .9rem; margin-top: 16px; font-family: var(--font-display); }
+
+    .stats-section { padding-block: 0 clamp(56px,8vw,96px); }
+    .stat { text-align: center; padding: 30px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+    .stat b { font-family: var(--font-mono); font-size: clamp(2.2rem, 5vw, 3rem); color: var(--primary); display: block; line-height: 1; }
+    .stat small { color: var(--muted); font-size: .9rem; margin-top: 10px; display: block; }
+  </style>
+
+  <script src="js/main.js"></script>
+  <!-- Home-only interactivity: date, rotating announcements, counters -->
+  <script>
+    // Today's date chip
+    document.getElementById("todayDate").textContent =
+      new Date().toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" });
+
+    // Dynamic, rotating announcements (demonstrates dynamic content updates)
+    const announcements = [
+      "Semester exam timetable is now on the LMS — check your slots early.",
+      "Library extends hours to 10 PM during the assessment period.",
+      "Peer study groups for Software Engineering open this week in the Community.",
+      "Wellness week: free 10-minute guided breaks every afternoon.",
+      "New: track your allowance in the Budget tool before month-end."
+    ];
+    const textEl = document.getElementById("announceText");
+    const dotsEl = document.getElementById("announceDots");
+    let idx = 0, timer;
+    announcements.forEach((_, i) => {
+      const d = document.createElement("span");
+      d.addEventListener("click", () => { show(i); restart(); });
+      dotsEl.appendChild(d);
+    });
+    function show(i) {
+      idx = i;
+      textEl.style.opacity = 0;
+      setTimeout(() => { textEl.textContent = announcements[i]; textEl.style.opacity = 1; }, 250);
+      dotsEl.querySelectorAll("span").forEach((s, j) => s.classList.toggle("on", j === i));
+    }
+    function next() { show((idx + 1) % announcements.length); }
+    function restart() { clearInterval(timer); timer = setInterval(next, 4500); }
+    show(0); restart();
+
+    // Animated stat counters when they scroll into view
+    const counters = document.querySelectorAll(".count");
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        cio.unobserve(el);
+        if (el.dataset.text) { el.textContent = el.dataset.text; return; }
+        const to = parseInt(el.dataset.to, 10), suffix = el.dataset.suffix || "";
+        let n = 0; const step = Math.max(1, Math.round(to / 40));
+        const t = setInterval(() => {
+          n += step; if (n >= to) { n = to; clearInterval(t); }
+          el.textContent = n + suffix;
+        }, 28);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach((c) => cio.observe(c));
+  </script>
+</body>
+</html>
