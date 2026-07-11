@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community — SmartStudent Hub</title>
+  <meta name="description" content="A Vue.js-powered student discussion forum with polls and FAQs. No login required." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>[v-cloak]{display:none}</style>
+</head>
+<body>
+  <div class="page-loader"><div class="loader-ring"></div></div>
+
+  <!-- ============ NAV (shared) ============ -->
+  <header class="nav">
+    <div class="container">
+      <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="planner.html">Study Planner</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="wellness.html">Wellness</a></li>
+          <li><a href="budget.html">Budget</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle theme"></button>
+        <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HEADER ============ -->
+  <section class="section" style="padding-bottom:20px">
+    <div class="container reveal">
+      <span class="eyebrow">Student Community · powered by Vue.js</span>
+      <h1>Ask, share, and figure it out together.</h1>
+      <p class="lead mt-2">A space to swap study tips, post events and vote in quick polls — no account, no login. Your posts are saved in your browser.</p>
+    </div>
+  </section>
+
+  <!-- ============ VUE APP ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+
+      <!-- fallback shown until Vue mounts (e.g. if offline) -->
+      <div id="forum-fallback" class="card text-center" style="padding:40px">
+        <div class="loader-ring" style="margin:0 auto 14px"></div>
+        Loading the community… if this stays, check your internet — the Vue library loads from a CDN.
+      </div>
+
+      <div id="community-app" v-cloak class="community-grid">
+
+        <!-- ---------- MAIN: FORUM ---------- -->
+        <main>
+          <!-- new post -->
+          <div class="card">
+            <h3 style="margin-bottom:14px">Start a discussion</h3>
+            <div class="post-form">
+              <div class="post-form-row">
+                <input v-model="author" type="text" class="c-input" placeholder="Your name (optional)" maxlength="30" />
+                <select v-model="newTag" class="c-input">
+                  <option v-for="t in tags" :key="t">{{ t }}</option>
+                </select>
+              </div>
+              <textarea v-model="newBody" class="c-input" rows="3"
+                :class="{ invalid: postError }"
+                placeholder="What's on your mind? Ask a question, share a tip…"
+                @input="postError = false"></textarea>
+              <p v-if="postError" class="c-err">Please write something before posting.</p>
+              <div class="post-form-foot">
+                <span class="c-hint">{{ newBody.length }}/500</span>
+                <button class="btn btn-primary" @click="addPost" :disabled="!newBody.trim()">Post</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- filters -->
+          <div class="forum-controls">
+            <div class="tag-tabs">
+              <button v-for="t in filterTabs" :key="t"
+                class="tag-tab" :class="{ active: activeTag === t }"
+                @click="activeTag = t">{{ t }}</button>
+            </div>
+            <div class="forum-tools">
+              <input v-model="search" type="search" class="c-input" placeholder="Search posts…" />
+              <select v-model="sortBy" class="c-input" style="width:auto">
+                <option value="new">Newest</option>
+                <option value="top">Most liked</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- posts -->
+          <p class="forum-count">{{ filteredPosts.length }} discussion(s) · {{ totalReplies }} replies</p>
+
+          <transition-group name="fade" tag="div" class="post-list">
+            <article v-for="post in filteredPosts" :key="post.id" class="card post">
+              <header class="post-head">
+                <span class="avatar" :style="{ background: avatarColor(post.author) }">{{ initials(post.author) }}</span>
+                <div>
+                  <b>{{ post.author }}</b>
+                  <span class="post-meta"><span class="chip">{{ post.tag }}</span> · {{ timeAgo(post.ts) }}</span>
+                </div>
+              </header>
+              <p class="post-body">{{ post.body }}</p>
+              <footer class="post-actions">
+                <button class="act" :class="{ liked: post.liked }" @click="likePost(post)">♥ {{ post.likes }}</button>
+                <button class="act" @click="toggleReply(post)">💬 Reply ({{ post.replies.length }})</button>
+              </footer>
+
+              <!-- replies -->
+              <div v-if="post.replies.length" class="reply-list">
+                <div v-for="r in post.replies" :key="r.id" class="reply">
+                  <span class="avatar sm" :style="{ background: avatarColor(r.author) }">{{ initials(r.author) }}</span>
+                  <div class="reply-body">
+                    <b>{{ r.author }}</b> <span class="post-meta">· {{ timeAgo(r.ts) }}</span>
+                    <p>{{ r.body }}</p>
+                    <button class="act sm" :class="{ liked: r.liked }" @click="likeReply(r)">♥ {{ r.likes }}</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- reply box -->
+              <div v-if="replyOpen[post.id]" class="reply-form">
+                <input v-model="replyAuthor[post.id]" class="c-input" placeholder="Your name (optional)" maxlength="30" />
+                <textarea v-model="replyBody[post.id]" class="c-input" rows="2" placeholder="Write a reply…"></textarea>
+                <button class="btn btn-primary" @click="addReply(post)" :disabled="!(replyBody[post.id] || '').trim()">Reply</button>
+              </div>
+            </article>
+          </transition-group>
+
+          <div v-if="!filteredPosts.length" class="card text-center" style="padding:40px;color:var(--muted)">
+            No posts match your filter yet. Be the first to start this conversation.
+          </div>
+        </main>
+
+        <!-- ---------- SIDEBAR: POLLS ---------- -->
+        <aside class="community-side">
+          <div class="card poll" v-for="poll in polls" :key="poll.id">
+            <span class="eyebrow" style="margin:0 0 4px">Quick poll</span>
+            <h3 class="poll-q">{{ poll.q }}</h3>
+            <ul class="poll-opts">
+              <li v-for="(o, i) in poll.options" :key="i"
+                  class="poll-opt" :class="{ voted: poll.voted === i, done: poll.voted !== null }"
+                  @click="vote(poll, i)">
+                <div class="poll-bar" :style="{ width: (poll.voted !== null ? pct(poll, i) : 0) + '%' }"></div>
+                <span class="poll-label">{{ o.text }}</span>
+                <span class="poll-pct" v-if="poll.voted !== null">{{ pct(poll, i) }}%</span>
+              </li>
+            </ul>
+            <p class="poll-total">{{ poll.voted !== null ? pollTotal(poll) + ' votes · thanks!' : 'Tap an option to vote' }}</p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ACCORDION (native, accessible) ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Community FAQ</span>
+        <h2>Good to know</h2>
+      </div>
+      <div class="faq reveal">
+        <details class="faq-item"><summary>Do I need an account to post?</summary><p>No. This is a demo forum with no login or backend — just type a name (or stay anonymous) and post. Everything is saved locally in your own browser.</p></details>
+        <details class="faq-item"><summary>Where are posts stored?</summary><p>In your browser's <code>localStorage</code>. They persist on this device between visits, but they aren't shared to other people or devices, since there's no server.</p></details>
+        <details class="faq-item"><summary>How do I clear the forum?</summary><p>Clearing your browser's site data for this page resets it to the seed posts. Handy right before a fresh demo.</p></details>
+        <details class="faq-item"><summary>What are the community guidelines?</summary><p>Keep it kind, keep it useful, and keep it relevant to student life. Choose a category so others can find your post.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared) ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+        <p>A student-built platform for managing academic and personal life. EEI3346 Web Application Development mini project.</p>
+      </div>
+      <div class="footer-cols">
+        <div><h4>Tools</h4><a href="planner.html">Study Planner</a><a href="budget.html">Budget Tracker</a><a href="wellness.html">Wellness</a></div>
+        <div><h4>Campus</h4><a href="community.html">Community</a><a href="support.html">Support</a><a href="index.html">Home</a></div>
+      </div>
+    </div>
+    <div class="container"><div class="footer-base">© 2026 SmartStudent Hub · Built from scratch with HTML5, CSS, JavaScript &amp; Vue.js</div></div>
+  </footer>
+
+  <!-- ============ Page styles ============ -->
+  <style>
+    .community-grid { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+    @media (max-width: 940px) { .community-grid { grid-template-columns: 1fr; } }
+    main > .card { margin-bottom: 18px; }
+
+    /* shared community input styling */
+    .c-input { width: 100%; font-family: inherit; font-size: .93rem; color: var(--ink); background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 11px 13px; transition: border-color .2s; }
+    .c-input:focus { outline: none; border-color: var(--primary); }
+    .c-input.invalid { border-color: var(--danger); }
+    .c-err { color: var(--danger); font-size: .82rem; margin-top: 6px; }
+    .c-hint { color: var(--muted); font-family: var(--font-mono); font-size: .78rem; }
+
+    .post-form { display: flex; flex-direction: column; gap: 12px; }
+    .post-form-row { display: grid; grid-template-columns: 1fr 160px; gap: 12px; }
+    @media (max-width: 480px) { .post-form-row { grid-template-columns: 1fr; } }
+    .post-form textarea { resize: vertical; }
+    .post-form-foot { display: flex; justify-content: space-between; align-items: center; }
+
+    .forum-controls { display: flex; justify-content: space-between; gap: 14px; align-items: center; flex-wrap: wrap; margin: 6px 0 14px; }
+    .tag-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag-tab { border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-family: var(--font-display); font-size: .82rem; font-weight: 500; padding: 7px 14px; border-radius: 999px; cursor: pointer; transition: .2s; }
+    .tag-tab:hover { color: var(--ink); }
+    .tag-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .forum-tools { display: flex; gap: 8px; }
+    .forum-tools .c-input { width: 180px; }
+    @media (max-width: 480px) { .forum-tools { width: 100%; } .forum-tools .c-input:first-child { flex: 1; width: auto; } }
+    .forum-count { color: var(--muted); font-family: var(--font-mono); font-size: .8rem; margin-bottom: 12px; }
+
+    .post-list { display: flex; flex-direction: column; gap: 14px; }
+    .post-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .avatar { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: #fff; font-family: var(--font-display); font-weight: 700; font-size: .95rem; flex-shrink: 0; }
+    .avatar.sm { width: 32px; height: 32px; border-radius: 9px; font-size: .78rem; }
+    .post-meta { color: var(--muted); font-size: .8rem; }
+    .post-head b { display: block; }
+    .post-body { line-height: 1.6; }
+    .post-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .act { border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); font-family: var(--font-mono); font-size: .8rem; padding: 6px 12px; border-radius: 999px; cursor: pointer; transition: .2s; }
+    .act:hover { color: var(--ink); border-color: var(--primary); }
+    .act.liked { color: var(--danger); border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+    .act.sm { padding: 3px 9px; font-size: .74rem; margin-top: 4px; }
+
+    .reply-list { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 14px; }
+    .reply { display: flex; gap: 10px; }
+    .reply-body { flex: 1; }
+    .reply-body p { margin: 3px 0; line-height: 1.55; }
+    .reply-form { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+    .community-side { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 18px; }
+    @media (max-width: 940px) { .community-side { position: static; } }
+    .poll-q { margin-bottom: 14px; font-size: 1.05rem; }
+    .poll-opts { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .poll-opt { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: border-color .2s; }
+    .poll-opt:not(.done):hover { border-color: var(--primary); }
+    .poll-opt.done { cursor: default; }
+    .poll-opt.voted { border-color: var(--primary); }
+    .poll-bar { position: absolute; inset: 0 auto 0 0; background: color-mix(in srgb, var(--primary) 16%, transparent); transition: width .6s var(--ease); z-index: 0; }
+    .poll-opt.voted .poll-bar { background: color-mix(in srgb, var(--primary) 26%, transparent); }
+    .poll-label, .poll-pct { position: relative; z-index: 1; font-size: .9rem; }
+    .poll-pct { font-family: var(--font-mono); font-weight: 500; color: var(--primary); }
+    .poll-total { color: var(--muted); font-size: .8rem; font-family: var(--font-mono); margin-top: 12px; }
+
+    .faq { display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
+    .faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 18px; }
+    .faq-item summary { cursor: pointer; padding: 14px 0; font-family: var(--font-display); font-weight: 500; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; color: var(--primary); font-size: 1.3rem; transition: transform .2s; }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p { color: var(--muted); padding: 0 0 16px; line-height: 1.6; }
+    .faq-item code { background: var(--surface-2); padding: 1px 6px; border-radius: 5px; font-family: var(--font-mono); font-size: .85em; }
+
+    /* Vue list transition */
+    .fade-enter-active { transition: all .35s var(--ease); }
+    .fade-enter-from { opacity: 0; transform: translateY(-8px); }
+  </style>
+
+  <script src="js/main.js"></script>
+  <!-- Vue 3 global build (pinned for a stable viva demo). Swap the version if needed. -->
+  <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js"></script>
+  <script src="js/forum.js"></script>
+</body>
+</html>
