@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wellness — SmartStudent Hub</title>
+  <meta name="description" content="Check in on your mood, stay hydrated, breathe, and take breaks — a calm corner for student wellbeing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-loader"><div class="loader-ring"></div></div>
+
+  <!-- ============ NAV (shared) ============ -->
+  <header class="nav">
+    <div class="container">
+      <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="planner.html">Study Planner</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="wellness.html">Wellness</a></li>
+          <li><a href="budget.html">Budget</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle theme"></button>
+        <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HEADER ============ -->
+  <section class="section" style="padding-bottom:0">
+    <div class="container reveal">
+      <span class="eyebrow">Wellness</span>
+      <h1>Look after the student, not just the studying.</h1>
+      <p class="lead mt-2">A quiet corner to check in with yourself, stay hydrated, breathe, and remember to take breaks.</p>
+    </div>
+  </section>
+
+  <!-- ============ MOOD CHECK-IN ============ -->
+  <section class="section" style="padding-top:36px;padding-bottom:0">
+    <div class="container">
+      <div class="mood-layout">
+        <div class="card reveal">
+          <div class="tool-head"><span class="eyebrow" style="margin:0">Daily mood check-in</span></div>
+          <p class="mood-status" id="moodStatus">How are you feeling today?</p>
+          <div class="mood-btns" id="moodBtns"></div>
+          <textarea class="c-input mt-2" id="moodNote" rows="2" placeholder="Optional: a word on why (just for you)…"></textarea>
+          <div class="care-note" id="moodCare" style="display:none">
+            Tough day? Be gentle with yourself — a short walk, water, or a chat with a friend can help.
+            If low days are piling up, your campus counselling service is there for you. 💙
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="tool-head">
+            <span class="eyebrow" style="margin:0">Last 7 days</span>
+            <span class="chip" id="moodAvg">No check-ins yet</span>
+          </div>
+          <div class="mood-chart" id="moodChart"></div>
+          <p class="mood-legend">Your check-ins stay on this device — a private snapshot of how your week's going.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HYDRATION + BREATHING ============ -->
+  <section class="section">
+    <div class="container grid grid-2">
+
+      <!-- Hydration -->
+      <div class="card water-card reveal">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Hydration</span></div>
+        <div class="water-body">
+          <div class="focus-ring" id="ringWater" style="--size:150px" data-pct="0" data-label="hydrated"></div>
+          <div class="water-info">
+            <div class="water-num"><b id="waterCount">0</b><small id="waterGoal">of 8 glasses</small></div>
+            <div class="water-ctrls">
+              <button class="btn btn-ghost" id="waterSub" aria-label="Remove a glass">−</button>
+              <button class="btn btn-primary" id="waterAdd">+ Glass</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breathing -->
+      <div class="card breath-card reveal">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Box breathing</span><span class="chip">4 · 4 · 4 · 4</span></div>
+        <div class="breath-stage">
+          <div class="breath-circle">
+            <div class="breath-inner">
+              <span id="breathLabel">Ready?</span>
+              <b id="breathCount"></b>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="breathBtn" style="width:100%">Start</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ BREAK REMINDER + TIP ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container grid grid-2">
+
+      <!-- Break reminder -->
+      <div class="card reveal">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Break reminders</span></div>
+        <p class="lead" style="font-size:.95rem">Get a gentle nudge to stand up and rest your eyes while you work.</p>
+        <div class="break-row">
+          <label class="switch"><input type="checkbox" id="breakToggle"><span class="slider"></span></label>
+          <span>Remind me every</span>
+          <select class="c-input" id="breakInterval" style="width:auto">
+            <option value="30">30 min</option>
+            <option value="45" selected>45 min</option>
+            <option value="60">60 min</option>
+          </select>
+        </div>
+        <button class="btn btn-ghost mt-2" id="breakPreview">Preview a reminder</button>
+      </div>
+
+      <!-- Wellness tip -->
+      <div class="card tip-card reveal">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Wellness tip</span><span class="chip" id="tipTag">Focus</span></div>
+        <p class="tip-text" id="tipText"></p>
+        <button class="btn btn-ghost" id="tipNext">Another tip →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared) ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+        <p>A student-built platform for managing academic and personal life. EEI3346 Web Application Development mini project.</p>
+      </div>
+      <div class="footer-cols">
+        <div><h4>Tools</h4><a href="planner.html">Study Planner</a><a href="budget.html">Budget Tracker</a><a href="wellness.html">Wellness</a></div>
+        <div><h4>Campus</h4><a href="community.html">Community</a><a href="support.html">Support</a><a href="index.html">Home</a></div>
+      </div>
+    </div>
+    <div class="container"><div class="footer-base">© 2026 SmartStudent Hub · Built from scratch with HTML5, CSS, JavaScript &amp; Vue.js</div></div>
+  </footer>
+
+  <!-- ============ Page styles ============ -->
+  <style>
+    .c-input { width: 100%; font-family: inherit; font-size: .93rem; color: var(--ink); background: var(--surface-2); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 11px 13px; transition: border-color .2s; }
+    .c-input:focus { outline: none; border-color: var(--primary); }
+    .tool-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+
+    /* Mood */
+    .mood-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: start; }
+    @media (max-width: 880px) { .mood-layout { grid-template-columns: 1fr; } }
+    .mood-status { font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 16px; }
+    .mood-btns { display: flex; gap: 8px; }
+    .mood-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 6px; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--surface-2); cursor: pointer; transition: .2s; }
+    .mood-btn:hover { transform: translateY(-3px); border-color: var(--primary); }
+    .mood-btn.active { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent); }
+    .mood-emoji { font-size: 1.7rem; line-height: 1; }
+    .mood-lbl { font-size: .72rem; color: var(--muted); font-family: var(--font-mono); }
+    .care-note { margin-top: 14px; padding: 14px 16px; border-radius: var(--radius); background: color-mix(in srgb, var(--primary) 8%, transparent); border: 1px solid var(--border); font-size: .88rem; line-height: 1.55; color: var(--ink); }
+
+    .mood-chart { display: flex; align-items: flex-end; gap: 10px; height: 130px; padding: 6px 0; }
+    .mc-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; height: 100%; justify-content: flex-end; }
+    .mc-bar { width: 100%; max-width: 34px; border-radius: 8px 8px 4px 4px; transition: height .5s var(--ease); }
+    .mc-bar.high { background: linear-gradient(var(--positive), color-mix(in srgb, var(--positive) 70%, var(--primary))); }
+    .mc-bar.mid { background: var(--accent); }
+    .mc-bar.low { background: color-mix(in srgb, var(--danger) 70%, var(--accent)); }
+    .mc-bar.empty { background: var(--ring-track); }
+    .mc-col span { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); }
+    .mood-legend { color: var(--muted); font-size: .82rem; margin-top: 12px; }
+
+    /* Hydration */
+    .water-body { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .water-info { flex: 1; min-width: 140px; }
+    .water-num b { font-family: var(--font-mono); font-size: 2.4rem; color: var(--ink); line-height: 1; }
+    .water-num small { display: block; color: var(--muted); font-family: var(--font-mono); font-size: .82rem; margin-top: 4px; }
+    .water-ctrls { display: flex; gap: 8px; margin-top: 16px; }
+
+    /* Breathing */
+    .breath-card { text-align: center; }
+    .breath-stage { height: 240px; display: grid; place-items: center; margin-bottom: 12px; }
+    .breath-circle { width: 150px; height: 150px; border-radius: 50%; display: grid; place-items: center; transform: scale(1); transition: transform .6s var(--ease); background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--primary) 40%, var(--surface)), color-mix(in srgb, var(--accent) 35%, var(--surface))); box-shadow: var(--shadow-md); }
+    .breath-circle.active { box-shadow: 0 0 0 8px color-mix(in srgb, var(--primary) 12%, transparent), var(--shadow-lg); }
+    .breath-inner { font-family: var(--font-display); }
+    .breath-inner span { display: block; font-size: .92rem; font-weight: 500; color: var(--ink); }
+    .breath-inner b { font-family: var(--font-mono); font-size: 1.6rem; color: var(--ink); }
+
+    /* Break reminder + switch */
+    .break-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+    .switch { position: relative; display: inline-block; width: 48px; height: 27px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; inset: 0; background: var(--ring-track); border-radius: 999px; cursor: pointer; transition: .3s; }
+    .slider::before { content: ""; position: absolute; width: 21px; height: 21px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .3s; box-shadow: var(--shadow-sm); }
+    .switch input:checked + .slider { background: var(--primary); }
+    .switch input:checked + .slider::before { transform: translateX(21px); }
+
+    /* Tip */
+    .tip-card { display: flex; flex-direction: column; }
+    .tip-text { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.5; flex: 1; margin-bottom: 18px; }
+
+    /* Toast (created by JS) */
+    .toast-wrap { position: fixed; right: 20px; bottom: 20px; z-index: 200; display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+    .toast { background: var(--ink); color: var(--bg); padding: 13px 16px; border-radius: var(--radius); font-size: .88rem; box-shadow: var(--shadow-lg); opacity: 0; transform: translateY(12px); transition: opacity .4s var(--ease), transform .4s var(--ease); }
+    .toast.in { opacity: 1; transform: none; }
+  </style>
+
+  <script src="js/main.js"></script>
+  <script src="js/wellness.js"></script>
+</body>
+</html>
