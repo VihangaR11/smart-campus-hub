@@ -45,7 +45,14 @@
   <section class="section" style="padding-top:clamp(40px,6vw,72px)">
     <div class="container hero-grid">
       <div class="hero-copy reveal">
-        <span class="eyebrow">Campus life, one calm dashboard</span>
+        <div class="hero-greet">
+          <span class="eyebrow" id="greetLine">Campus life, one calm dashboard</span>
+          <span class="streak-badge" id="streakBadge" hidden></span>
+        </div>
+        <div class="name-set" id="nameSet">
+          <input id="nameInput" type="text" maxlength="30" placeholder="What should we call you?" />
+          <button class="btn btn-primary" id="nameSave">Save</button>
+        </div>
         <h1>Stop juggling ten tabs.<br>Run your student life from <span style="color:var(--primary)">one hub.</span></h1>
         <p class="lead mt-2">
           SmartStudent Hub brings your assignments, focus sessions, wellbeing check-ins,
@@ -173,6 +180,14 @@
     .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
     @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
 
+    .hero-greet { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+    .streak-badge { font-family: var(--font-mono); font-size: .76rem; font-weight: 500; padding: 4px 11px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); white-space: nowrap; }
+    .name-set { display: flex; gap: 8px; margin-bottom: 14px; max-width: 380px; }
+    .name-set.hidden { display: none; }
+    .name-set input { flex: 1; font-family: inherit; font-size: .92rem; color: var(--ink); background: var(--surface-2); border: 1.5px solid var(--border); border-radius: 999px; padding: 10px 16px; transition: border-color .2s; }
+    .name-set input:focus { outline: none; border-color: var(--primary); }
+    .name-edit { background: none; border: none; color: var(--primary); font-family: var(--font-display); font-weight: 500; font-size: .82rem; cursor: pointer; padding: 0; text-decoration: underline; }
+
     .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; box-shadow: var(--shadow-lg); }
     .hero-card-top { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
     .ring-row { display: flex; gap: 14px; justify-content: space-between; flex-wrap: wrap; }
@@ -205,6 +220,46 @@
     // Today's date chip
     document.getElementById("todayDate").textContent =
       new Date().toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" });
+
+    // Time-based greeting + remembered name + usage streak
+    (function () {
+      const greetLine = document.getElementById("greetLine");
+      const nameSet = document.getElementById("nameSet");
+      const nameInput = document.getElementById("nameInput");
+      const nameSave = document.getElementById("nameSave");
+      const badge = document.getElementById("streakBadge");
+
+      function paintGreeting() {
+        const name = SSH.getName();
+        greetLine.textContent = SSH.greeting() + (name ? ", " + name : "") + " 👋";
+        if (name) {
+          nameSet.classList.add("hidden");
+          if (!document.getElementById("nameEdit")) {
+            const edit = document.createElement("button");
+            edit.id = "nameEdit"; edit.className = "name-edit"; edit.textContent = "not you?";
+            edit.addEventListener("click", () => { nameSet.classList.remove("hidden"); nameInput.value = name; nameInput.focus(); });
+            greetLine.after(edit);
+          }
+        }
+      }
+      function save() {
+        const v = nameInput.value.trim();
+        if (!v) { nameInput.focus(); return; }
+        SSH.setName(v);
+        const e = document.getElementById("nameEdit"); if (e) e.remove();
+        paintGreeting();
+      }
+      nameSave.addEventListener("click", save);
+      nameInput.addEventListener("keydown", e => { if (e.key === "Enter") save(); });
+
+      // streak (already incremented by main.js on load)
+      const s = SSH.getStreak();
+      if (s.count > 0) {
+        badge.hidden = false;
+        badge.textContent = s.count === 1 ? "🔥 Streak started!" : "🔥 " + s.count + "-day streak";
+      }
+      paintGreeting();
+    })();
 
     // Dynamic, rotating announcements (demonstrates dynamic content updates)
     const announcements = [

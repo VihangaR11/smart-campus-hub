@@ -103,7 +103,7 @@
     el.innerHTML =
       '<svg viewBox="0 0 ' + size + ' ' + size + '">' +
       '<defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">' +
-      '<stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="var(--accent)"/>' +
+      '<stop offset="0%" stop-color="var(--primary)"/><stop offset="100%" stop-color="var(--secondary)"/>' +
       '</linearGradient></defs>' +
       '<circle class="track" cx="' + size/2 + '" cy="' + size/2 + '" r="' + r + '" stroke-width="' + stroke + '"/>' +
       '<circle class="fill"  cx="' + size/2 + '" cy="' + size/2 + '" r="' + r + '" stroke-width="' + stroke +
@@ -120,6 +120,42 @@
   }
   document.addEventListener("DOMContentLoaded", function () { renderRings(); });
 
+  /* ---- 4. Shared identity + usage streak (used across pages) ---- */
+  function lsGet(k, fb) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch (e) { return fb; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  const isoOf = d => d.toISOString().slice(0, 10);
+  const todayISO = () => isoOf(new Date());
+  function offsetISO(n) { const d = new Date(); d.setDate(d.getDate() + n); return isoOf(d); }
+
+  function getName() { return lsGet("ssh-name", ""); }
+  function setName(n) { lsSet("ssh-name", String(n || "").trim()); return getName(); }
+
+  function greeting() {
+    const h = new Date().getHours();
+    if (h < 12) return "Good morning";
+    if (h < 17) return "Good afternoon";
+    if (h < 21) return "Good evening";
+    return "Working late";
+  }
+
+  // Update the streak once per calendar day (runs on any page).
+  function updateStreak() {
+    const s = lsGet("ssh-streak", { last: null, count: 0 });
+    const today = todayISO();
+    if (s.last === today) return s;                 // already counted today
+    s.count = (s.last === offsetISO(-1)) ? s.count + 1 : 1; // consecutive day, else reset
+    s.last = today;
+    lsSet("ssh-streak", s);
+    return s;
+  }
+  function getStreak() { return lsGet("ssh-streak", { last: null, count: 0 }); }
+
+  document.addEventListener("DOMContentLoaded", updateStreak);
+
   /* Expose a tiny API for page scripts */
-  window.SSH = { renderRing: renderRing, renderRings: renderRings };
+  window.SSH = {
+    renderRing: renderRing, renderRings: renderRings,
+    getName: getName, setName: setName,
+    greeting: greeting, getStreak: getStreak, updateStreak: updateStreak
+  };
 })();
