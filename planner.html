@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Planner — SmartStudent Hub</title>
+  <meta name="description" content="Track assignments, run a Pomodoro focus timer, and calculate your GPA — all in one place." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="page-loader"><div class="loader-ring"></div></div>
+
+  <!-- ============ NAV (shared) ============ -->
+  <header class="nav">
+    <div class="container">
+      <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="planner.html">Study Planner</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="wellness.html">Wellness</a></li>
+          <li><a href="budget.html">Budget</a></li>
+          <li><a href="support.html">Support</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="theme-toggle" aria-label="Toggle theme"></button>
+        <button class="nav-burger" aria-label="Open menu" aria-expanded="false"><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HEADER ============ -->
+  <section class="section" style="padding-bottom:0">
+    <div class="container reveal">
+      <span class="eyebrow">Study Planner</span>
+      <h1>Plan the work. Then do the focus.</h1>
+      <p class="lead mt-2">Your deadlines, focus sessions and grades — tracked in one place and saved right in your browser.</p>
+    </div>
+  </section>
+
+  <!-- ============ SUMMARY RINGS ============ -->
+  <section class="section" style="padding-top:36px">
+    <div class="container">
+      <div class="card ring-summary reveal">
+        <div class="focus-ring" id="ringAssign" style="--size:120px" data-pct="0" data-label="Assignments"></div>
+        <div class="focus-ring" id="ringFocus" style="--size:120px" data-pct="0" data-label="Focus / 8"></div>
+        <div class="focus-ring" id="ringTime" style="--size:120px" data-pct="0" data-label="3h goal"></div>
+        <div class="ring-note">
+          <h3>Today's focus</h3>
+          <p>These rings fill up live as you complete assignments and focus sessions. Everything is stored locally — close the tab and it's still here tomorrow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMER + ASSIGNMENTS ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="container tool-grid">
+
+      <!-- Pomodoro -->
+      <div class="card timer-card reveal">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Focus timer</span><span class="chip">Sessions today: <b id="sessionCount">0</b></span></div>
+        <div class="mode-pills">
+          <button class="mode-pill active" data-mode="focus">Focus 25</button>
+          <button class="mode-pill" data-mode="short">Break 5</button>
+          <button class="mode-pill" data-mode="long">Long 15</button>
+        </div>
+        <div class="timer-disp" id="timerDisp">25:00</div>
+        <div class="timer-mode" id="timerMode">Focus</div>
+        <div class="timer-dots" id="timerDots"></div>
+        <div class="timer-controls">
+          <button class="btn btn-primary" id="timerStart">Start</button>
+          <button class="btn btn-ghost" id="timerReset">Reset</button>
+          <button class="btn btn-ghost" id="timerSkip">Skip →</button>
+        </div>
+      </div>
+
+      <!-- Assignment tracker -->
+      <div class="card reveal">
+        <div class="tool-head"><span class="eyebrow" style="margin:0">Assignment tracker</span></div>
+        <form id="assignForm" novalidate>
+          <div class="assign-grid">
+            <div class="field" style="margin:0">
+              <label for="aTitle">Task</label>
+              <input id="aTitle" type="text" placeholder="e.g. EEI3346 Mini Project" />
+              <span class="err">Please enter a task title.</span>
+            </div>
+            <div class="field" style="margin:0">
+              <label for="aModule">Module</label>
+              <input id="aModule" type="text" placeholder="e.g. EEI3346" />
+            </div>
+            <div class="field" style="margin:0">
+              <label for="aDue">Due date</label>
+              <input id="aDue" type="date" />
+              <span class="err">Pick a due date.</span>
+            </div>
+            <div class="field" style="margin:0">
+              <label for="aPrio">Priority</label>
+              <select id="aPrio"><option>High</option><option selected>Medium</option><option>Low</option></select>
+            </div>
+          </div>
+          <button class="btn btn-primary mt-2" type="submit" style="width:100%">+ Add assignment</button>
+        </form>
+
+        <div class="progress mt-3"><div class="progress-fill" id="assignBar"></div></div>
+        <p class="assign-meta" id="assignMeta">Nothing tracked yet</p>
+        <ul class="assign-list" id="assignList"></ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ GPA CALCULATOR ============ -->
+  <section class="section" id="gpa" style="padding-top:0">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">GPA calculator</span>
+        <h2>See where you stand — and what's next</h2>
+        <p class="lead">Add your modules, credits and grades to get a live GPA. Uses the standard UGC 4.0 scale; class thresholds vary slightly by university.</p>
+      </div>
+
+      <div class="gpa-layout reveal">
+        <div class="card gpa-table-card">
+          <table class="gpa-table">
+            <thead><tr><th>Module</th><th style="width:90px">Credits</th><th style="width:90px">Grade</th><th style="width:44px"></th></tr></thead>
+            <tbody id="gpaBody"></tbody>
+          </table>
+          <button class="btn btn-ghost mt-2" id="gpaAdd">+ Add module</button>
+        </div>
+
+        <div class="card gpa-result">
+          <div class="focus-ring" id="ringGpa" style="--size:150px" data-pct="0" data-label="of 4.0"></div>
+          <div class="gpa-big"><b id="gpaValue">0.00</b><small id="gpaCredits">0 credits</small></div>
+          <span class="gpa-class" id="gpaClass">Add modules to see class</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER (shared) ============ -->
+  <footer class="footer">
+    <div class="container">
+      <div>
+        <a href="index.html" class="brand"><span class="brand-mark">S</span>Smart<span>Student</span>&nbsp;Hub</a>
+        <p>A student-built platform for managing academic and personal life. EEI3346 Web Application Development mini project.</p>
+      </div>
+      <div class="footer-cols">
+        <div><h4>Tools</h4><a href="planner.html">Study Planner</a><a href="budget.html">Budget Tracker</a><a href="wellness.html">Wellness</a></div>
+        <div><h4>Campus</h4><a href="community.html">Community</a><a href="support.html">Support</a><a href="index.html">Home</a></div>
+      </div>
+    </div>
+    <div class="container"><div class="footer-base">© 2026 SmartStudent Hub · Built from scratch with HTML5, CSS, JavaScript &amp; Vue.js</div></div>
+  </footer>
+
+  <!-- ============ Page styles ============ -->
+  <style>
+    /* Progress bar (shared-ish, used here + budget) */
+    .progress { height: 10px; background: var(--ring-track); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 999px; transition: width .5s var(--ease); }
+
+    .ring-summary { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+    .ring-summary .ring-note { flex: 1; min-width: 220px; }
+    .ring-summary .ring-note p { color: var(--muted); font-size: .92rem; margin-top: 6px; }
+
+    .tool-grid { display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 880px) { .tool-grid { grid-template-columns: 1fr; } }
+    .tool-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; gap: 10px; flex-wrap: wrap; }
+
+    /* Timer */
+    .timer-card { text-align: center; transition: background .4s var(--ease); }
+    .timer-card.is-break { background: color-mix(in srgb, var(--positive) 10%, var(--surface)); }
+    .mode-pills { display: inline-flex; gap: 4px; padding: 4px; background: var(--surface-2); border-radius: 999px; margin-bottom: 18px; }
+    .mode-pill { border: none; background: transparent; color: var(--muted); font-family: var(--font-display); font-weight: 500; font-size: .82rem; padding: 7px 14px; border-radius: 999px; cursor: pointer; transition: .2s; }
+    .mode-pill.active { background: var(--surface); color: var(--primary); box-shadow: var(--shadow-sm); }
+    .timer-disp { font-family: var(--font-mono); font-weight: 700; font-size: clamp(3.4rem, 12vw, 4.6rem); line-height: 1; color: var(--ink); letter-spacing: -.02em; }
+    .timer-mode { color: var(--muted); font-family: var(--font-mono); font-size: .84rem; letter-spacing: .1em; text-transform: uppercase; margin-top: 6px; }
+    .timer-dots { display: flex; gap: 8px; justify-content: center; margin: 18px 0; }
+    .timer-dots span { width: 10px; height: 10px; border-radius: 50%; background: var(--ring-track); transition: .3s; }
+    .timer-dots span.on { background: var(--primary); }
+    .timer-controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+    /* Assignment tracker */
+    .assign-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 520px) { .assign-grid { grid-template-columns: 1fr; } }
+    .assign-meta { color: var(--muted); font-size: .85rem; font-family: var(--font-mono); margin: 10px 0 4px; }
+    .assign-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+    .assign-list .empty { color: var(--muted); text-align: center; padding: 24px; font-size: .92rem; }
+    .a-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); }
+    .a-check { width: 26px; height: 26px; flex-shrink: 0; border-radius: 8px; border: 1.5px solid var(--border); background: var(--surface); cursor: pointer; color: #fff; font-weight: 700; display: grid; place-items: center; transition: .2s; }
+    .a-item.done .a-check { background: var(--positive); border-color: var(--positive); }
+    .a-item.done .a-title { text-decoration: line-through; color: var(--muted); }
+    .a-body { flex: 1; min-width: 0; }
+    .a-title { display: block; font-weight: 500; }
+    .a-sub { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; font-size: .78rem; }
+    .a-when { color: var(--muted); font-family: var(--font-mono); }
+    .a-item.overdue .a-when { color: var(--danger); }
+    .a-item.soon .a-when { color: var(--accent); }
+    .a-prio { font-family: var(--font-mono); font-size: .72rem; padding: 2px 8px; border-radius: 999px; }
+    .p-High { background: color-mix(in srgb, var(--danger) 16%, transparent); color: var(--danger); }
+    .p-Medium { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }
+    .p-Low { background: var(--surface); color: var(--muted); }
+    .a-del { border: none; background: transparent; color: var(--muted); cursor: pointer; font-size: 1rem; padding: 4px; border-radius: 6px; }
+    .a-del:hover { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+
+    /* GPA */
+    .gpa-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
+    @media (max-width: 880px) { .gpa-layout { grid-template-columns: 1fr; } }
+    .gpa-table { width: 100%; border-collapse: collapse; }
+    .gpa-table th { text-align: left; font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-family: var(--font-mono); font-weight: 500; padding: 0 6px 10px; }
+    .gpa-table td { padding: 5px 6px; }
+    .gpa-table input, .gpa-table select { width: 100%; background: var(--surface-2); border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 10px; color: var(--ink); font-family: inherit; font-size: .9rem; }
+    .gpa-table input:focus, .gpa-table select:focus { outline: none; border-color: var(--primary); }
+    .g-del { border: none; background: transparent; color: var(--muted); cursor: pointer; font-size: 1rem; }
+    .g-del:hover { color: var(--danger); }
+    .gpa-result { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; position: sticky; top: 88px; }
+    .gpa-big b { font-family: var(--font-mono); font-size: 2.6rem; color: var(--ink); display: block; line-height: 1; }
+    .gpa-big small { color: var(--muted); font-family: var(--font-mono); font-size: .82rem; }
+    .gpa-class { font-family: var(--font-display); font-weight: 600; font-size: .95rem; padding: 8px 16px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
+    .gpa-class.c-first { background: color-mix(in srgb, var(--positive) 16%, transparent); color: var(--positive); }
+    .gpa-class.c-upper { background: color-mix(in srgb, var(--primary) 14%, transparent); color: var(--primary); }
+    .gpa-class.c-lower { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); }
+    .gpa-class.c-pass { background: var(--surface-2); color: var(--muted); }
+    .gpa-class.c-fail { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); }
+  </style>
+
+  <script src="js/main.js"></script>
+  <script src="js/planner.js"></script>
+</body>
+</html>
