@@ -1,4 +1,4 @@
-# SmartStudent Hub 🎓
+# Smart Student Hub 🎓
 
 A modern, interactive **student life platform** that brings study planning, wellbeing, budgeting and campus community into one distraction-free hub.
 
@@ -11,7 +11,7 @@ A modern, interactive **student life platform** that brings study planning, well
 ## ✨ Overview
 
 Being a student means juggling assignments, deadlines, money, wellbeing and campus
-life across a dozen browser tabs. **SmartStudent Hub** solves that by pulling the
+life across a dozen browser tabs. **Smart Student Hub** solves that by pulling the
 essentials into a single, responsive web app with a consistent design language —
 built entirely from scratch with **HTML5, CSS, JavaScript and Vue.js**, with no
 backend required.
